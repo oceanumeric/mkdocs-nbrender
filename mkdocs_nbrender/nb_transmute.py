@@ -29,6 +29,7 @@ def _nbconverter_app():
     app.load_config_file()
     
     # update config file
+    # you can do so many things with this configuration 
     app.config.update(
          {
              "TemplateExporter" : { 
@@ -36,9 +37,14 @@ def _nbconverter_app():
                 "exclude_output_prompt": True
                 },
              "HTMLExporter" : {
-                 "sanitize_html": True
-             }
-             
+                 "sanitize_html": True,
+                 "theme": 'light'
+             },
+             # add highlight settings
+             "CSSHTMLHeaderPreprocessor": {
+                "enabled": True,
+                "highlight_class": ".highlight-ipynb",
+            }
          }
     )
     
