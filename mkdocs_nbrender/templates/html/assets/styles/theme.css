@@ -4,6 +4,113 @@ Found on share/nbconvert/templates/lab/static
 Some changes have been made and marked with CHANGE
 */
 
+body {
+    font-size: 13pt;
+    width: 60%;
+    margin-left:auto;
+    margin-right:auto;
+    display: inline_block;
+}
+
+.clipboard-copy-txt {
+    display: none !important;
+}
+
+.code-output-block {
+  position: relative;
+}
+
+.copyButton {
+    position: absolute;
+    top: auto;
+    right: 0;
+    padding-top:10px;
+    padding-right:10px;
+    z-index: auto;
+}
+
+.highlight-ipynb {
+    padding-bottom: 1px;
+    margin-bottom: 13px;
+    margin-top: 10px;
+    background: #f5f5f5 !important; 
+    border-radius: 10px;
+    overflow-x: auto;
+}
+
+.highlight-ipynb > pre {
+  font-feature-settings: "kern";
+  font-family: SFMono-Regular,Consolas,Menlo,monospace;
+  color: #36464e;
+  margin-left: 1px;
+  margin-top: 0.7em;
+  padding-left: 8px;
+  margin-bottom: 0.5em;
+}
+
+li {
+    padding:4px;
+}
+
+/* figure output align center */
+
+.jp-RenderedSVG {
+  text-align: center;
+}
+
+.jp- RenderedHTMLCommon {
+    overflow: auto;
+}
+
+.jp-Cell-outputWrapper {
+    overflow: auto;
+}
+
+.dataframe {
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 1.5em;
+    border: none;
+    border-collapse: collapse;
+    border-spacing: 0;
+    color: black;
+    font-size: 13px;
+    table-layout: auto;
+    overflow-x: scroll;
+    width: max-content;
+}
+
+thead {
+    border-bottom: 1px solid black;
+    vertical-align: bottom;
+}
+tr,
+th,
+td {
+    text-align: right;
+    vertical-align: middle;
+    padding: 0.5em 0.5em;
+    line-height: normal;
+    white-space: normal;
+    max-width: none;
+    border: none;
+    overflow: auto;
+}
+th {
+    font-weight: bold;
+}
+tbody tr:nth-child(odd) {
+    background: #f5f5f5;
+}
+tbody tr:hover {
+    background: rgba(66, 165, 245, 0.2);
+}
+
+.anchor-link {
+    display: none;
+}
+
 .jupyter-wrapper {
     /* Elevation
    *
@@ -757,4 +864,11 @@ Some changes have been made and marked with CHANGE
     --jp-icon-contrast-color1: var(--md-green-600);
     --jp-icon-contrast-color2: var(--md-pink-600);
     --jp-icon-contrast-color3: var(--md-blue-600);
+}
+
+
+.jp-RenderedText pre {
+    display: inline-block;
+    overflow-x: auto;
+    width: max-content;
 }
