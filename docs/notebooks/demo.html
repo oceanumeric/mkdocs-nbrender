@@ -24,6 +24,7 @@ body {
     margin-left:auto;
     margin-right:auto;
     display: inline_block;
+    overflow: auto;
 }
 
 .clipboard-copy-txt {
@@ -123,6 +124,12 @@ tbody tr:hover {
 
 .anchor-link {
     display: none;
+}
+
+/* mathjax */
+
+.jp-RenderedHTMLCommon {
+    overflow: auto;
 }
 
 .jupyter-wrapper {
@@ -1035,9 +1042,9 @@ console.log('hello, world')
 
 
 
-<div id="cc416ed0-188a-493a-a2ad-21f600d8e108" class="jp-RenderedJavaScript jp-OutputArea-output " data-mime-type="application/javascript">
+<div id="e35414d1-1703-4041-86a4-378343ebcfe0" class="jp-RenderedJavaScript jp-OutputArea-output " data-mime-type="application/javascript">
 <script type="text/javascript">
-var element = document.getElementById('cc416ed0-188a-493a-a2ad-21f600d8e108');
+var element = document.getElementById('e35414d1-1703-4041-86a4-378343ebcfe0');
 console.log('hello, world')
 
 </script>
@@ -3092,16 +3099,12 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });</script>
 <script>
-// clean body attribute 
-body_dom = document.getElementsByTagName("BODY")[0]
-// add class name
-body_dom.classList.add("jupyter-body")
 
 // change svg width
 var div_svg = document.getElementsByClassName('jp-RenderedSVG');
-
 for (const element of div_svg) {
     element.childNodes[3].setAttribute("width", "100%")
-    element.childNodes[3].setAttribute("height", "auto")
-}</script>
+    element.childNodes[3].setAttribute("height", "100%")
+}
+</script>
 </html>
