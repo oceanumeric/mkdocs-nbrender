@@ -6,24 +6,23 @@
 {# We want just the notebook content not a full html page #}
 {%- block header -%}
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{%- block html_head -%}
+{% set nb_title = nb.metadata.get('title', resources['metadata']['name']) | escape_html_keep_quotes %}
+<title>{{nb_title}}</title>
+
+{%- block html_head_js -%}
 {# CHANGE:
 1. Remove Require.JS (incompatible with the clipboard-copy)
 #}
-{%- block html_head_js -%}
 {%- block html_head_js_requirejs -%}
 {# <script src="{{ resources.require_js_url }}"></script> #}
 {%- endblock html_head_js_requirejs -%}
-{{ resources.include_js("html/assets/copy_code.js") }}
-<script>
-      document.addEventListener('clipboard-copy', function(event) {
-        const notice = event.target.querySelector('.notice')
-        console.log("Async: Copying to clipboard was successful!");
-        notice.hidden = false
-        setTimeout(function() {
-          notice.hidden = true
-        }, 1000)
-      })
-</script>
 {%- endblock html_head_js -%}
 
 {% block jupyter_widgets %}
@@ -35,83 +34,134 @@
 {% block extra_css %}
 {% endblock extra_css %}
 
+
+{% block notebook_css %}
+{{ resources.include_css("static/index.css") }}
+{% if resources.theme == 'dark' %}
+    {{ resources.include_css("static/theme-dark.css") }}
+{% elif resources.theme == 'light'  %}
+    {{ resources.include_css("static/theme-light.css") }}
+{% else %}
+    {{ resources.include_lab_theme(resources.theme) }}
+{% endif %}
+
+<style type="text/css">
+/* Force rendering true colors when outputing to pdf */
+* {
+  -webkit-print-color-adjust: exact;
+}
+
+/* hide the copy text /*
+.clipboard-copy-txt {
+    display: none; 
+}
+
+body > .copyButton {
+    position: absolute;
+    top: auto;
+    right: 0;
+    margin-right:10px;
+    z-index: auto;
+}
+
+/* Misc */
+a.anchor-link {
+  display: none;
+}
+/* Input area styling */
+.jp-InputArea {
+  overflow: hidden;
+}
+.jp-InputArea-editor {
+  overflow: hidden;
+}
+.CodeMirror.cm-s-jupyter .highlight pre {
+/* weird, but --jp-code-padding defined to be 5px but 4px horizontal padding is hardcoded for pre.CodeMirror-line */
+  padding: var(--jp-code-padding) 4px;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+.jp-OutputArea-output pre {
+  line-height: inherit;
+  font-family: inherit;
+}
+.jp-RenderedText pre {
+  color: var(--jp-content-font-color1);
+  font-size: var(--jp-code-font-size);
+}
+/* Using table instead of flexbox so that we can use break-inside property */
+/* CSS rules under this comment should not be required anymore after we move to the JupyterLab 4.0 CSS */
+.jp-CodeCell.jp-mod-outputsScrolled .jp-OutputArea-prompt {
+  min-width: calc(
+    var(--jp-cell-prompt-width) - var(--jp-private-cell-scrolling-output-offset)
+  );
+}
+.jp-OutputArea-child {
+  display: table;
+  width: 100%;
+}
+.jp-OutputPrompt {
+  display: table-cell;
+  vertical-align: top;
+  min-width: var(--jp-cell-prompt-width);
+}
+body[data-format='mobile'] .jp-OutputPrompt {
+  display: table-row;
+}
+.jp-OutputArea-output {
+  display: table-cell;
+  width: 100%;
+}
+body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
+  display: table-row;
+}
+.jp-OutputArea-output.jp-OutputArea-executeResult {
+  width: 100%;
+}
+/* Hiding the collapser by default */
+.jp-Collapser {
+  display: none;
+}
+@page {
+    margin: 0.5in; /* Margin for each printed piece of paper */
+}
+@media print {
+  .jp-Cell-inputWrapper,
+  .jp-Cell-outputWrapper {
+    display: block;
+  }
+  .jp-OutputArea-child {
+    break-inside: avoid-page;
+  }
+}
+</style>
+
+{% endblock notebook_css %}
+
+
+{% block mathjax %}
+    <!-- MathJax configuration -->
+    {{ resources.include_js("html/assets/MathJax.js") }}
+    <!-- End of mathjax configuration -->
+{% endblock mathjax%}
+
+
+{%- block html_head_css -%}
 {% for css in resources.inlining.css -%}
   <style type="text/css">
     {# CHANGE: replace CSS classes: .highlight -> .highlight-ipynb #}
     {{ css | replace(".highlight ", ".highlight-ipynb " ) }}
   </style>
 {% endfor %}
-
-{%- block html_head_css -%}
-    <style>
-        .highlight-ipynb {
-            display:block; 
-            stroke-linejoin: round;
-            stroke-linecap:butt; 
-            text-transform: none;
-            font-family: monospace;
-            border-radius: 3px;
-            -webkit-box-shadow: inset 0 0 0 1px rgba(16, 22, 26, 0.2);
-            box-shadow: inset 0 0 0 1px rgba(16, 22, 26, 0.2);
-            background: #f5f5f5f5;
-            padding: 2px 5px;
-            color: #212121;
-            line-height: 1.3077,
-            font-size:13px
-        }
-        .clipboard-copy-txt{
-            display: none; 
-        }
-        .copy-button-container{
-                position: absolute;
-                top: auto;
-                right: 0;
-                margin-right:10px;
-                z-index: auto;
-        }
-    </style>
 {%- endblock html_head_css -%}
 
-{% block mathjax %}
-    <!-- MathJax configuration -->
-    <script id=MathJax-configuration>
-        window.MathJax = {
-            loader: {
-                load: ['ui/lazy', 'output/svg']
-            }, 
-            tex: {
-                tags: "ams",
-                useLabelIds: true,
-                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-                displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-                processEscapes: true,
-                processEnvironments: true
-            },
-            options: {
-                lazyMargin: '500px',
-                // ignoreHtmlClass: ".*|",
-                // processHtmlClass: "arithmatex"
-            }, 
-            startup: {
-                input: ['tex'],
-                output: 'svg'
-            }
-            };
-
-            (function () {
-            var script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js';
-            script.async = true;
-            document.head.appendChild(script);
-            })();
-    </script>
-    <!-- End of mathjax configuration -->
-{% endblock mathjax%}
+{%- endblock html_head -%}
+</head>
 {%- endblock header -%}
 
-{# CHANGE: Overwrite the footer because lab template outputs a complete HTML page #}
-{% block footer %}
-{% endblock footer %}
 
 {# CHANGE: Overwrite body header and footer to include a .jupyter-wrapper div wrapper #}
 {%- block body_header -%}
@@ -122,16 +172,14 @@
 
 {% block input_group %}
     <div class="code-output-block" data-type="inline">
-        <div class="copy-button-container">
-        <clipboard-copy>
+        <div role ='button', class="copyButton">
             <div>
-                <span class="notice" hidden>Copied!</span>
+                <span class="noticeCopy" hidden>Copied!</span>
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
                     <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
                     <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
                 </svg>
-                </div>
-        </clipboard-copy>
+            </div>
         </div>
         {{ cell.source | highlight_code(metadata=cell.metadata) }}
     </div>
@@ -146,112 +194,9 @@
 
 
 
-{%- block body_footer -%}
-
-<script>
-    var browserHt = window.innerHeight;
-    
-    var observer_mj = new IntersectionObserver(handler_mj, {
-        root: null,
-        rootMargin: '500px 0px',
-        threshold: 0
-    });
-    
-    function handler_mj(entries, observer_mj) {
-        //for (entry of entries) {
-        entries.forEach(function(entry) {
-            if(entry.isIntersecting) {
-                if( typeof(MathJax) == "undefined" ) {
-                    window.MathJax = {
-                        startup: {
-                            typeset: false,
-                        },
-                        tex: {
-                            inlineMath: [['$', '$'], ['\\(', '\\)']],
-                            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-                            tags: 'ams',
-                        },
-                        chtml: {
-                            scale: 0.975
-                        }
-                    };
-                    // Need to add these for pages with \boldsymbol
-                    if(gebi("content").innerHTML.indexOf("boldsymbol") > -1) {
-                        window.MathJax['loader'] = {load: ['[tex]/boldsymbol']};
-                        window.MathJax['tex']['packages'] = {'[+]': ['boldsymbol']};
-                    }
-                    var mjScript = document.createElement('script');
-                    mjScript.setAttribute('src','https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js');
-                    document.head.appendChild(mjScript);
-    
-                    var waitCycles = 0;
-    
-                    function waitForMj() {
-    
-                        if(typeof(MathJax) != 'undefined' && typeof(MathJax.typesetPromise) == 'function' ) {
-    
-                            console.log("MJ loaded.");
-    
-                            // Loop through on-screen (and close by) entries
-                            // for (entry of entries) {
-                            entries.forEach(function(entry) {
-                                if(entry.isIntersecting) {
-                                    MathJax.typesetPromise([entry.target]).then(function() {
-                                        // Done after processing
-    
-                                        console.log("Eqn proc by MJ (init)");
-                                        
-                                        addOverflowXauto();
-                                        // Stop watching the element
-                                        observer_mj.unobserve(entry.target);
-                                    });
-                                }
-                            });
-                            cancelAnimationFrame(raf);
-                        } else {
-                            
-                            console.log("MJ loading...");
-                            
-                            waitCycles++;
-                            if(waitCycles<20) {
-                                window.requestAnimationFrame(waitForMj);
-                            } else {
-                                // Give up on MathJax
-                                cancelAnimationFrame(raf);
-                            }
-                        }
-                    }
-                    var raf = window.requestAnimationFrame(waitForMj);
-    
-                    //break;
-    
-                } else if( typeof(MathJax.typesetPromise) != "undefined" ){
-    
-                    if(entry.isIntersecting && entry.target.innerHTML.indexOf('mjx-math') == -1) {
-    
-                        // This processes the math in the node
-                        MathJax.typesetPromise([entry.target]).then(function() {
-                            // Done after processing						
-                            console.log("Eqn proc by MJ");
-                            
-                            addOverflowXauto();
-                            // Stop watching the element
-                            observer_mj.unobserve(entry.target);
-                        });
-                    }
-                }
-            }
-        });
-    }
-    
-    var contentDivs = document.querySelectorAll('#grnBorder, #content');
-    
-    contentDivs.forEach(function(contentDiv) {
-        contentDiv.querySelectorAll('p, div, ul, ol, li, table').forEach(function(node) {
-            if(node.textContent.indexOf("$") > -1 ) {
-                observer_mj.observe(node);
-            }
-        });
-    });
-    </script>
-{%- endblock body_footer -%}
+{# CHANGE: Overwrite the footer because lab template outputs a complete HTML page #}
+{% block footer %}
+{{ resources.include_js("html/assets/copy_code.js") }}
+{{ resources.include_js("html/assets/custom.js") }}
+</html>
+{% endblock footer %}

@@ -33,8 +33,8 @@ def _nbconverter_app():
     app.config.update(
          {
              "TemplateExporter" : { 
-                "exclude_input_prompt": True,
-                "exclude_output_prompt": True
+                "exclude_input_prompt": True,  # In[no_prompt]
+                "exclude_output_prompt": True  # Out[no_prompt]
                 },
              "HTMLExporter" : {
                  "sanitize_html": True,
@@ -62,7 +62,16 @@ def _highlight_code(source, language='python', metadata=None):
     formatter = HtmlFormatter(cssclass="highlight-ipynb hl-" + language)
     output = _pygments_highlight(source, formatter, language, metadata)
 
-    clipboard_copy_txt = f"""<div class="clipboard-copy-txt">{source}</div>
+    # ! Important: parsing raw string with '\n'
+    # use it to copy 
+    clipboard_copy_txt = f"""
+    <div class="clipboard-copy-txt">
+        <pre>
+            <code>
+                {source}
+            </code>
+        </pre>
+    </div>
     """
     return output + clipboard_copy_txt
 
