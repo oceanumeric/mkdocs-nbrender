@@ -118,6 +118,13 @@ tbody tr:hover {
     overflow: auto;
 }
 
+/* iframe */
+
+iframe {
+    display: block;
+    margin: auto;
+}
+
 .jupyter-wrapper {
     /* Elevation
    *

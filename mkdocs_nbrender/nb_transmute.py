@@ -1,10 +1,10 @@
 # nbconverter
 import os
+import re
 import json 
 from nbconvert.nbconvertapp import NbConvertApp
 from nbconvert.exporters import HTMLExporter
 from nbconvert.filters.highlight import _pygments_highlight
-from pygments import highlight
 from pygments.formatters import HtmlFormatter
 
 
@@ -21,6 +21,7 @@ path_settings = Settings()
 # nb converter app instance 
 def _nbconverter_app():
     """
+    
     a customized notebook converter 
     """
     # initialize the nb converter app 
@@ -96,6 +97,16 @@ def _get_nb_toc(fpath):
     """
     pass
 
+def _latex_to_svg(source):
+    """
+    collect latex equations
+    """
+    latex_equations = {
+        'inline': [],
+        'display': []
+    }
+    return None
+
 
 def nb_transmute(file_path, theme=None):
     """
@@ -113,6 +124,7 @@ def nb_transmute(file_path, theme=None):
     filters = {
         "highlight_code": _highlight_code,
         # "markdown2html": custom_markdown2html,
+        "latex_to_svg": _latex_to_svg, 
     }
     
     # html exporter 
