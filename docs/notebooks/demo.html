@@ -17,15 +17,49 @@ This file is taken from the built JupyterLab theme.css
 Found on share/nbconvert/templates/lab/static
 Some changes have been made and marked with CHANGE
 */
+html {
+    scroll-behavior: smooth;
+  }
 
 body {
     font-size: 13pt;
-    width: 60%;
+    width: 90%;
     margin-left:auto;
     margin-right:auto;
     display: inline_block;
     overflow: auto;
+    display: inline-block;
 }
+
+
+/* Sidebar Navigation */
+.nav-toc {
+    position: sticky;
+    list-style: none;
+    top: 6em; 
+    width:15%;
+    float: right;
+}
+
+.nav-toc li.active > a {
+	color: #333;
+	font-weight: 500;
+}
+
+
+.nav-toc a {
+	text-decoration: none;
+	display: block;
+	padding: .125rem 0;
+	color: rgb(74, 72, 72);
+	transition: all 50ms ease-in-out; /* 💡 This small transition makes setting of the active state smooth */
+}
+
+.nav-toc a:hover,
+.nav-toc a:focus {
+	color: rgb(150, 144, 144);
+}
+
 
 .clipboard-copy-txt {
     display: none !important;
@@ -126,6 +160,10 @@ tbody tr:hover {
     visibility: hidden
 }
 
+.jp-Cell {
+    padding-left: 7%;
+}
+
 /* mathjax */
 
 .jp-RenderedHTMLCommon {
@@ -143,6 +181,13 @@ iframe {
 img {
     overflow: hidden;
     width: 100%;
+}
+
+.jupyter-wrapper {
+    width: 60%;
+    float: left;
+    padding-left: 20%;
+    padding-right: 5%;
 }
 
 .jupyter-wrapper {
@@ -1142,9 +1187,9 @@ console.log('hello, world')
 
 
 
-<div id="e45a42ba-cbcd-45ea-9f52-72944d9cb9cf" class="jp-RenderedJavaScript jp-OutputArea-output " data-mime-type="application/javascript">
+<div id="71edf29a-e8dd-4f09-9907-eee4af9fb55e" class="jp-RenderedJavaScript jp-OutputArea-output " data-mime-type="application/javascript">
 <script type="text/javascript">
-var element = document.getElementById('e45a42ba-cbcd-45ea-9f52-72944d9cb9cf');
+var element = document.getElementById('71edf29a-e8dd-4f09-9907-eee4af9fb55e');
 console.log('hello, world')
 
 </script>
@@ -3314,7 +3359,30 @@ for (const element of div_svg) {
 }
 
 // create a toc div
-var toc_div = document.createElement("div")
-toc_div.classList.add("toc")
-document.body.insertBefore(toc_div, document.body.firstChild);</script>
+var toc_div = document.createElement("nav")
+toc_div.classList.add("nav-toc")
+document.body.append(toc_div)
+
+// add toc 
+nav_toc = ""
+all_h2 = document.getElementsByTagName('h2'); 
+var new_line, h2_txt, h2_a; 
+
+for (const element of all_h2) {
+    h2_txt = element.textContent; 
+    h2_a = "#" + element.attributes.id.textContent
+    // slice the last tag
+    h2_txt = h2_txt.slice(0, h2_txt.length-1)
+    
+    new_line =
+    "<li>" + "<a href='" + h2_a + "'>" + h2_txt  + "</a>" + "</li>";
+
+    nav_toc += new_line; 
+}
+
+
+// select nav-toc 
+
+dom_nav_toc = document.getElementsByClassName("nav-toc");
+dom_nav_toc[0].innerHTML += nav_toc; </script>
 </html>

@@ -3,15 +3,49 @@ This file is taken from the built JupyterLab theme.css
 Found on share/nbconvert/templates/lab/static
 Some changes have been made and marked with CHANGE
 */
+html {
+    scroll-behavior: smooth;
+  }
 
 body {
     font-size: 13pt;
-    width: 60%;
+    width: 90%;
     margin-left:auto;
     margin-right:auto;
     display: inline_block;
     overflow: auto;
+    display: inline-block;
 }
+
+
+/* Sidebar Navigation */
+.nav-toc {
+    position: sticky;
+    list-style: none;
+    top: 6em; 
+    width:15%;
+    float: right;
+}
+
+.nav-toc li.active > a {
+	color: #333;
+	font-weight: 500;
+}
+
+
+.nav-toc a {
+	text-decoration: none;
+	display: block;
+	padding: .125rem 0;
+	color: rgb(74, 72, 72);
+	transition: all 50ms ease-in-out; /* 💡 This small transition makes setting of the active state smooth */
+}
+
+.nav-toc a:hover,
+.nav-toc a:focus {
+	color: rgb(150, 144, 144);
+}
+
 
 .clipboard-copy-txt {
     display: none !important;
@@ -112,6 +146,10 @@ tbody tr:hover {
     visibility: hidden
 }
 
+.jp-Cell {
+    padding-left: 7%;
+}
+
 /* mathjax */
 
 .jp-RenderedHTMLCommon {
@@ -129,6 +167,13 @@ iframe {
 img {
     overflow: hidden;
     width: 100%;
+}
+
+.jupyter-wrapper {
+    width: 60%;
+    float: left;
+    padding-left: 20%;
+    padding-right: 5%;
 }
 
 .jupyter-wrapper {
