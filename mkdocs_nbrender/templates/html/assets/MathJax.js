@@ -1,10 +1,10 @@
 window.MathJax = {
         loader: {
-            load: ['ui/lazy', 'output/svg']
+            // ['ui/lazy', 'output/svg']
+            load: ['output/svg']
         }, 
         tex: {
             tags: "ams",
-            useLabelIds: true,
             inlineMath: [ ['$','$'], ["\\(","\\)"] ],
             displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
             processEscapes: true,
@@ -14,11 +14,11 @@ window.MathJax = {
             lazyMargin: '500px',
             // ignoreHtmlClass: ".*|",
             // processHtmlClass: "arithmatex"
-        }, 
-        startup: {
-            input: ['tex'],
-            output: 'svg'
         }
+        // startup: {
+        //     input: ['tex'],
+        //     output: 'svg'
+        // }
 };
 (function () {
         var script = document.createElement('script');

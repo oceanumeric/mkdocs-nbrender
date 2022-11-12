@@ -1,3 +1,4 @@
+// https://joa.sh/posts/2015-09-14-prerender-mathjax.html
 var mjpage = require("mathjax-node-page").mjpage;
 var jsdom = require("jsdom");
 var fs = require("fs");
@@ -14,7 +15,7 @@ var renderMathjaxForFile = (dir, fileName, callback) => {
 
     mjpage(document.body.innerHTML, 
       {format: ["TeX"]},
-      {svg:true},  // do not put equation number
+      {svg:true},
     function(result) {
       "use strict";
       document.body.innerHTML = result;

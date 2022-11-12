@@ -41,12 +41,13 @@
   {{ resources.include_css("html/assets/styles/theme.css") }}
 {% endblock notebook_css %}
 
-
+{# 
 {% block mathjax %}
     <!-- MathJax configuration -->
     {{ resources.include_js("html/assets/MathJax.js") }}
     <!-- End of mathjax configuration -->
 {% endblock mathjax%}
+#}
 
 
 {%- block html_head_css -%}
@@ -63,16 +64,23 @@
 {%- endblock header -%}
 
 
+{%- block html_body -%}
+
+<div id="generated-toc">
+hello 
+</div>
+
+
 {# CHANGE: Overwrite body header and footer to include a .jupyter-wrapper div wrapper #}
 {%- block body_header -%}
 <div class="jupyter-wrapper">
 {%- endblock body_header -%}
 
-{# markdown block#}
-
+{# 
 {%- block markdowncell -%}
   {{ super ()}}
 {%- endblock markdowncell -%}
+markdown block#}
 
 
 {% block input %}
@@ -102,6 +110,9 @@
 {% endblock output %}
 
 
+
+
+{%- endblock html_body -%}
 
 {# CHANGE: Overwrite the footer because lab template outputs a complete HTML page #}
 {% block footer %}

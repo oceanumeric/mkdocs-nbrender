@@ -8,7 +8,6 @@ from nbconvert.filters.highlight import _pygments_highlight
 from pygments.formatters import HtmlFormatter
 
 
-
 # set file path
 class Settings:
     def __init__(self):

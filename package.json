@@ -1,8 +1,13 @@
 {
   "dependencies": {
+    "glob": "^8.0.3",
     "mathjax": "^3.2.2",
     "mathjax-full": "^3.2.2",
-    "mathjax-node": "^2.1.1",
-    "mathjax-node-page": "^3.2.0"
+    "mathjax-node": "1.4.0",
+    "mathjax-node-page": "^1.4.0"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^5.0.0",
+    "purgecss": "^5.0.0"
   }
 }
