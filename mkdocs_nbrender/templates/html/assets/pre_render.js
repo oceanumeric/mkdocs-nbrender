@@ -1,6 +1,6 @@
 // https://joa.sh/posts/2015-09-14-prerender-mathjax.html
 var mjpage = require("mathjax-node-page").mjpage;
-var jsdom = require("jsdom");
+const jsdom = require("jsdom");
 var fs = require("fs");
 var path = require("path");
 
@@ -22,7 +22,6 @@ var renderMathjaxForFile = (dir, fileName, callback) => {
       var HTML = "<!DOCTYPE html>\n" + document.documentElement.outerHTML.replace(/^(\n|\s)*/, "");
       fs.writeFileSync(fullPath, HTML);
       callback();
-      console.log("Rendering is DONE");
     });
   });
 };

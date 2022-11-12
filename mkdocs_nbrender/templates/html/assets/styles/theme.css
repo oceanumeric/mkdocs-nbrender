@@ -53,6 +53,7 @@ body {
 
 .code-output-block {
   position: relative;
+  font-size: 12pt;
 }
 
 .copyButton {
@@ -147,7 +148,7 @@ tbody tr:hover {
 }
 
 .jp-Cell {
-    padding-left: 7%;
+    padding-left: 17%;
 }
 
 /* mathjax */
