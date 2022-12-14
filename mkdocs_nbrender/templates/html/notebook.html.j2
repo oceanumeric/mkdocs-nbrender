@@ -42,11 +42,13 @@
 {% endblock notebook_css %}
 
 
+{# no numbering 
 {% block mathjax %}
     <!-- MathJax configuration -->
     {{ resources.include_js("html/assets/MathJax.js") }}
     <!-- End of mathjax configuration -->
 {% endblock mathjax%}
+#}
 
 
 
@@ -94,6 +96,7 @@ markdown block#}
                 </svg>
             </div>
         </div>
+        {# hightlight code via function #}
         {{ cell.source | highlight_code(metadata=cell.metadata) }}
     </div>
 {% endblock input %}

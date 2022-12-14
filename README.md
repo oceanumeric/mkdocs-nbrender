@@ -52,4 +52,10 @@ abc…	Letters
 (abc|def)	Matches abc or def
 
 
+## math-jax-node
+
+width: 80
+ex: 7
+
+
 
